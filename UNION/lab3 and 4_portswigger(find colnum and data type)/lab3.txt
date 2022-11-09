@@ -1,0 +1,50 @@
+SQL injection in product category filter
+Union attack
+
+End goal: determine the no of columns returnd by query
+
+Background on union:
+table1     table2
+-------    --------
+a | b       c | d
+1 , 2       2 , 3
+3 , 4       4 , 5
+
+Query 1: select a,b from table1
+1,2
+3,4
+
+Query 2: select a,b from table1 UNION select c,d from table2
+1,2
+3,4
+2,3
+4,5
+
+Rule for union:
+-same number of columns
+-same data type
+
+SQLi attack to find column:
+select ? from table1 UNION select null
+-error -> no of column is more than one
+
+select ? from table1 UNION select null,null
+--error -> no of column is more than two
+
+-when no error -> the no of column is correct
+
+
+SQLi attack2 to find columns:
+select ? from table1 order by 3
+-- when order gives error it means the no of column is just before that
+
+
+----------------------------------------------------------------------------
+
+
+Determine data type of column
+
+select a,b,c from table1 UNION slect "a",NULL,NULL
+
+error --> cloumn is not string
+no error --> column is string

